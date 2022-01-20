@@ -9,6 +9,7 @@ import {updateEmbeds} from "./embedHandler.js";
 import {projectUpdateEmbeds} from "./commands/projectUpdateEmbeds.js";
 import {projectUpdate} from "./commands/projectUpdate.js";
 import {projectDelete} from "./commands/projectDelete.js";
+import {rolesCommand} from "./commands/roles.js";
 
 const token: Snowflake = process.env.BOT_TOKEN || "";
 
@@ -21,7 +22,8 @@ const commands = [
 	new SubcommandsOnlyCommand("project",
 		"Project management for developers",
 		config.developerRole,
-		projectAdd, projectUpdateEmbeds, projectUpdate, projectDelete)
+		projectAdd, projectUpdateEmbeds, projectUpdate, projectDelete),
+	rolesCommand
 ]
 
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]})
@@ -60,7 +62,7 @@ async function init() {
 		if (!cmd) {
 			console.log(`WARNING: could not find command with name ${slash[1].name}`)
 		}
-		await cmd!.init(slash[1])
+		await cmd?.init?.(slash[1])
 	}
 	console.log("Ready")
 
