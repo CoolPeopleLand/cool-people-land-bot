@@ -15,6 +15,15 @@ Plugin.init({
 	helpChannel: DataTypes.STRING
 }, {sequelize, modelName: "Plugin"})
 
+export class User extends Model {
+}
+
+User.init({
+	id: {type: DataTypes.STRING, primaryKey: true },
+	xp: DataTypes.NUMBER,
+	level: DataTypes.NUMBER
+}, {sequelize})
+
 export async function initStorage() {
 	await sequelize.sync({alter: true})
 }

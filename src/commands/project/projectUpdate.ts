@@ -1,9 +1,9 @@
-import {Subcommand} from "./command.js";
+import {Subcommand} from "../command.js";
 import {SlashCommandSubcommandBuilder} from "@discordjs/builders";
 import {CommandInteraction, TextChannel} from "discord.js";
-import {Plugin} from "../storage.js";
-import {config} from "../config.js";
-import {updateEmbeds} from "../embedHandler.js";
+import {Plugin} from "../../storage.js";
+import {config} from "../../config.js";
+import {updateEmbeds} from "../../embedHandler.js";
 
 export const projectUpdate: Subcommand = {
 	info: new SlashCommandSubcommandBuilder()

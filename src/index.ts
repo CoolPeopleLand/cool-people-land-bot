@@ -3,13 +3,17 @@ import {REST} from "@discordjs/rest";
 import {config} from "./config.js";
 import {Routes} from "discord-api-types/v9";
 import {SubcommandsOnlyCommand} from "./commands/subcommandsOnly.js";
-import {projectAdd} from "./commands/projectAdd.js";
+import {projectAdd} from "./commands/project/projectAdd.js";
 import {initStorage} from "./storage.js";
 import {updateEmbeds} from "./embedHandler.js";
-import {projectUpdateEmbeds} from "./commands/projectUpdateEmbeds.js";
-import {projectUpdate} from "./commands/projectUpdate.js";
-import {projectDelete} from "./commands/projectDelete.js";
+import {projectUpdateEmbeds} from "./commands/project/projectUpdateEmbeds.js";
+import {projectUpdate} from "./commands/project/projectUpdate.js";
+import {projectDelete} from "./commands/project/projectDelete.js";
 import {rolesCommand} from "./commands/roles.js";
+import {setupXp} from "./xp.js";
+import {xpCommand} from "./commands/xp.js";
+import {xpAddCommand} from "./commands/xp/xpAdd.js";
+import {xpLeaderboardCommand} from "./commands/xp/xpLeaderboard.js";
 
 const token: Snowflake = process.env.BOT_TOKEN || "";
 
@@ -23,7 +27,10 @@ const commands = [
 		"Project management for developers",
 		config.developerRole,
 		projectAdd, projectUpdateEmbeds, projectUpdate, projectDelete),
-	rolesCommand
+	rolesCommand,
+	xpCommand,
+	xpAddCommand,
+	xpLeaderboardCommand
 ]
 
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]})
@@ -53,6 +60,8 @@ async function init() {
 	// login
 	await client.login(token);
 	console.log("Logged in")
+
+	await setupXp(client);
 
 	// initialise commands
 	const guild = await client.guilds.fetch(config.guildId)

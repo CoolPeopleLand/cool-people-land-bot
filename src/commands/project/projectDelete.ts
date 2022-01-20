@@ -1,9 +1,9 @@
-import {Subcommand} from "./command.js";
+import {Subcommand} from "../command.js";
 import {SlashCommandStringOption, SlashCommandSubcommandBuilder} from "@discordjs/builders";
-import {Plugin} from "../storage.js";
+import {Plugin} from "../../storage.js";
 import {CommandInteraction, TextChannel} from "discord.js";
-import {updateEmbeds} from "../embedHandler.js";
-import {config} from "../config.js";
+import {updateEmbeds} from "../../embedHandler.js";
+import {config} from "../../config.js";
 
 export const projectDelete: Subcommand = {
 
