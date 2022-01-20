@@ -1,0 +1,6 @@
+*.sqlite
+bin/
+.idea/
+*.iml
+src/config.ts
+node_modules/
