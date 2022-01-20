@@ -19,6 +19,9 @@ export async function createEmbeds(): Promise<MessageEmbedOptions[]> {
 	return plugins.map(x => <MessageEmbedOptions>{
 		title: x.get("name"),
 		description: `Version **${x.get("currentVersion")}** by <@${x.get("developerUserId")}>
+		
+		${x.get("description")}
+		
 		<${x.get("downloadUrl")}>`,
 		timestamp: new Date(),
 		color: config.developers[x.get("developerUserId") as string].color
