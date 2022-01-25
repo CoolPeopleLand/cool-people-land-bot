@@ -2,6 +2,7 @@ import {Command} from "./command.js";
 import {SlashCommandBuilder} from "@discordjs/builders";
 import {CommandInteraction} from "discord.js";
 import {Plugin} from "../storage.js";
+import {config} from "../config.js";
 
 export const rolesCommand: Command = {
 	info: new SlashCommandBuilder()
@@ -15,13 +16,17 @@ export const rolesCommand: Command = {
 	async execute(interaction: CommandInteraction) {
 
 		const role = await interaction.options.get("role")!.role!
-		const plugins = await Plugin.findAll({
-			where: {announcementRole: role.id}
-		})
 
-		if (!plugins.length) {
-			await interaction.reply("Sorry, you can't get that role.")
-			return
+		if (role.id !== config.noPingRole) {
+
+			const plugins = await Plugin.findAll({
+				where: {announcementRole: role.id}
+			})
+
+			if (!plugins.length) {
+				await interaction.reply("Sorry, you can't get that role.")
+				return
+			}
 		}
 
 		const member = await (interaction.guild?.members.fetch(interaction.user))

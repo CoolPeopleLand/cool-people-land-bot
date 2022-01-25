@@ -10,7 +10,7 @@ import {projectUpdateEmbeds} from "./commands/project/projectUpdateEmbeds.js";
 import {projectUpdate} from "./commands/project/projectUpdate.js";
 import {projectDelete} from "./commands/project/projectDelete.js";
 import {rolesCommand} from "./commands/roles.js";
-import {setupXp} from "./xp.js";
+import {setupXp} from "./util/xp.js";
 import {xpCommand} from "./commands/xp.js";
 import {xpAddCommand} from "./commands/xp/xpAdd.js";
 import {xpLeaderboardCommand} from "./commands/xp/xpLeaderboard.js";

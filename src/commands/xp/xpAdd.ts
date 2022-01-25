@@ -1,8 +1,8 @@
 import {Command} from "../command";
 import {SlashCommandBuilder} from "@discordjs/builders";
-import {ApplicationCommand, CommandInteraction} from "discord.js";
+import {ApplicationCommand, CommandInteraction, GuildMember} from "discord.js";
 import {config} from "../../config.js";
-import {giveXp} from "../../xp.js";
+import {giveXp} from "../../util/xp.js";
 
 export const xpAddCommand: Command = {
 	info: new SlashCommandBuilder()
@@ -23,7 +23,7 @@ export const xpAddCommand: Command = {
 	},
 
 	async execute(interaction: CommandInteraction) {
-		await giveXp(interaction.options.get("user")!.user!.id, interaction.options.get("xp")!.value as number)
+		await giveXp(interaction.options.get("user")!.member! as GuildMember, interaction.options.get("xp")!.value as number)
 		await interaction.reply("Done")
 	}
 }
