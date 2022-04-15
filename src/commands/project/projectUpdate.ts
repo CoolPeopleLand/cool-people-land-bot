@@ -1,28 +1,35 @@
-import {Subcommand} from "../command.js";
-import {SlashCommandSubcommandBuilder} from "@discordjs/builders";
 import {CommandInteraction, TextChannel} from "discord.js";
 import {Plugin} from "../../storage.js";
 import {config} from "../../config.js";
 import {updateEmbeds} from "../../embedHandler.js";
+import {ApplicationCommandOptionType} from 'discord-api-types/v10'
+import {ExecutableSubcommand} from "djs-slash-helper";
 
-export const projectUpdate: Subcommand = {
-	info: new SlashCommandSubcommandBuilder()
-		.setName("update")
-		.setDescription("Set a project's current version")
-		.addStringOption(opt => opt.setName("name")
-			.setDescription("The project's name")
-			.setRequired(true)
-		)
-		.addStringOption(opt => opt.setName("version")
-			.setDescription("The project's new version")
-			.setRequired(true)
-		)
-		.addStringOption(opt => opt.setName("changelog")
-			.setDescription("What's changed")
-			.setRequired(true)
-		),
+export const projectUpdate: ExecutableSubcommand = {
+	type: ApplicationCommandOptionType.Subcommand,
+	name: "update",
+	description: "Set a project's current version",
+	options: [
+		{
+			type: ApplicationCommandOptionType.String,
+			name: "name",
+			description: "The project's name",
+			required: true
+		},
+		{
+			type: ApplicationCommandOptionType.String,
+			name: "version",
+			description: "The project's new version",
+			required: true
+		},
+		{
+			type: ApplicationCommandOptionType.String,
+			name: "changelog",
+			description: "What's changed",
+			required: true
+		}],
 
-	async execute(interaction: CommandInteraction): Promise<void> {
+	async handle(interaction: CommandInteraction): Promise<void> {
 		const plugin = await Plugin.findOne({
 			where: {
 				name: interaction.options.get("name")?.value

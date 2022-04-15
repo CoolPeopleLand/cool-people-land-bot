@@ -1,5 +1,6 @@
 *.sqlite
 bin/
+build/
 .idea/
 *.iml
 node_modules/

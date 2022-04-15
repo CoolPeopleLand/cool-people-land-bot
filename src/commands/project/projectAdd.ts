@@ -1,33 +1,41 @@
-import {Subcommand} from "../command.js";
 import {config} from "../../config.js";
 import {Plugin} from "../../storage.js";
 import {CommandInteraction, Guild, TextChannel} from "discord.js";
-import {SlashCommandSubcommandBuilder} from "@discordjs/builders";
 import {updateEmbeds} from "../../embedHandler.js";
+import {ApplicationCommandOptionType} from 'discord-api-types/v10'
+import {ExecutableSubcommand} from "djs-slash-helper";
 
-export const projectAdd: Subcommand = {
+export const projectAdd: ExecutableSubcommand = {
+	type: ApplicationCommandOptionType.Subcommand,
+	name: "create",
+	description: "Create a new project",
+	options: [
+		{
+			type: ApplicationCommandOptionType.String,
+			name: 'name',
+			description: "The project's name",
+			required: true
+		},
+		{
+			type: ApplicationCommandOptionType.String,
+			name: 'description',
+			description: "A short description of the project",
+			required: true
+		},
+		{
+			type: ApplicationCommandOptionType.String,
+			name: 'version',
+			description: "The project's current version",
+			required: true
+		},
+		{
+			type: ApplicationCommandOptionType.String,
+			name: 'url',
+			description: "The project's download URL",
+			required: true
+		}],
 
-	info: new SlashCommandSubcommandBuilder()
-		.setName("create")
-		.setDescription("Create a new project")
-		.addStringOption(opt => opt.setName("name")
-			.setDescription("The project's name")
-			.setRequired(true)
-		)
-		.addStringOption(opt => opt.setName("description")
-			.setDescription("A short description of the project")
-			.setRequired(true)
-		)
-		.addStringOption(opt => opt.setName("version")
-			.setDescription("The project's current version")
-			.setRequired(true)
-		)
-		.addStringOption(opt => opt.setName("url")
-			.setDescription("The project's download URL")
-			.setRequired(true)
-		),
-
-	async execute(interaction: CommandInteraction): Promise<void> {
+	async handle(interaction: CommandInteraction): Promise<void> {
 		const name: string = interaction.options.get("name")?.value as string
 		const guild = await interaction.client.guilds.cache.get(config.guildId) as Guild
 

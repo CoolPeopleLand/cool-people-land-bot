@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "es6",
-    "outDir": "./bin",
+    "outDir": "./build",
     "rootDir": "./src",
     "esModuleInterop": true,
     "moduleResolution": "Node",
@@ -11,7 +11,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strict": true,
-    "incremental": true
+    "incremental": true,
+    "sourceMap": true
   },
   "exclude": [
     "node_modules/"

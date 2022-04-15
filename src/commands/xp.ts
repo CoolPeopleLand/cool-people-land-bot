@@ -1,16 +1,21 @@
-import {Command} from "./command.js";
-import {SlashCommandBuilder} from "@discordjs/builders";
-import {CommandInteraction, GuildMember} from "discord.js";
+import { CommandInteraction} from "discord.js";
 import {User} from "../storage.js";
 import {xpForLevel} from "../xp.js";
+import {Command} from "djs-slash-helper";
+import {ApplicationCommandType, ApplicationCommandOptionType} from 'discord-api-types/v10'
 
-export const xpCommand: Command = {
-	info: new SlashCommandBuilder()
-		.setName("xp")
-		.setDescription("Shows your current XP")
-		.addUserOption(x => x.setName("user").setDescription("The user to show XP")),
+export const xpCommand: Command<ApplicationCommandType.ChatInput> = {
+	type: ApplicationCommandType.ChatInput,
+	name: "xp",
+	description: "Shows your current XP",
+	options: [{
+		name: "user",
+		description: "The user to show XP",
+		type: ApplicationCommandOptionType.User
+	}],
+	permissions: [],
 
-	async execute(interaction: CommandInteraction) {
+	async handle(interaction: CommandInteraction) {
 
 		const target = interaction.options.get("user")?.user || interaction.user
 
@@ -20,7 +25,7 @@ export const xpCommand: Command = {
 
 		const xpToNext = xpForLevel(level)
 
-		await interaction.reply(`${(interaction.member as GuildMember).displayName} has **${user?.get("xp") || 0}** XP 
+		await interaction.reply(`${target.username} has **${user?.get("xp") || 0}** XP 
 Level **${user?.get("level") || 0}** - **${xpToNext - xp} XP** to next level`)
 	}
 }

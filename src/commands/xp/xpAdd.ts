@@ -1,29 +1,32 @@
-import {Command} from "../command";
-import {SlashCommandBuilder} from "@discordjs/builders";
-import {ApplicationCommand, CommandInteraction} from "discord.js";
+import {Command} from "djs-slash-helper"
+import {CommandInteraction} from "discord.js";
 import {config} from "../../config.js";
 import {giveXp} from "../../xp.js";
+import {ApplicationCommandOptionType, ApplicationCommandType} from 'discord-api-types/v10'
 
-export const xpAddCommand: Command = {
-	info: new SlashCommandBuilder()
-		.setName("xpadd")
-		.setDescription("Adds xp to a user")
-		.setDefaultPermission(false)
-		.addUserOption(x => x.setName("user").setDescription("The user to add xp to").setRequired(true))
-		.addNumberOption(x => x.setName("xp").setDescription("How much xp to add").setRequired(true)),
+export const xpAddCommand: Command<ApplicationCommandType.ChatInput> = {
+	name: "xpadd",
+	description: "Adds xp to a user",
+	type: ApplicationCommandType.ChatInput,
+	default_permission: false,
+	permissions: [{
+		id: config.developerRole,
+		type: "ROLE",
+		permission: true
+	}],
+	options: [{
+		type: ApplicationCommandOptionType.User,
+		name: "user",
+		description: "The user to add xp for"
+	},{
+		type: ApplicationCommandOptionType.Number,
+		name: "xp",
+		description: "How much xp to add"
+	}],
 
-	async init(command: ApplicationCommand) {
-		await command.permissions.add({
-			permissions: [{
-				id: config.developerRole,
-				type: "ROLE",
-				permission: true
-			}]
-		})
-	},
-
-	async execute(interaction: CommandInteraction) {
+	async handle(interaction: CommandInteraction) {
 		await giveXp(interaction.options.get("user")!.user!.id, interaction.options.get("xp")!.value as number)
 		await interaction.reply("Done")
 	}
 }
+

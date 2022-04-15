@@ -6,23 +6,22 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "run": "node --loader ts-node/esm/transpile-only src/index.ts",
-    "run-dev": "nodemon --exec node --loader ts-node/esm/transpile-only src/index.ts"
+    "run-dev": "nodemon --exec `tsc && node build/index.js`"
   },
   "keywords": [],
   "author": "Lucy Poulton <lucy@lucypoulton.net>",
   "dependencies": {
-    "@discordjs/builders": "^0.11.0",
     "@discordjs/rest": "^0.2.0-canary.0",
-    "discord-api-types": "^0.26.1",
+    "discord-api-types": "^0.31.1",
     "discord.js": "^13.6.0",
-    "sequelize": "^6.13.0",
-    "sqlite3": "^5.0.2"
+    "djs-slash-helper": "^1.1.1",
+    "sequelize": "^6.19.0",
+    "sqlite3": "^5.0.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.15",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
   },
   "license": "ISC"
 }
