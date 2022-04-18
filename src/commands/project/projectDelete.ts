@@ -1,22 +1,22 @@
-import {Subcommand} from "../command.js";
-import {SlashCommandStringOption, SlashCommandSubcommandBuilder} from "@discordjs/builders";
 import {Plugin} from "../../storage.js";
 import {CommandInteraction, TextChannel} from "discord.js";
 import {updateEmbeds} from "../../embedHandler.js";
 import {config} from "../../config.js";
+import {ApplicationCommandOptionType} from 'discord-api-types/v10'
+import { ExecutableSubcommand } from "djs-slash-helper";
 
-export const projectDelete: Subcommand = {
+export const projectDelete : ExecutableSubcommand = {
+	type: ApplicationCommandOptionType.Subcommand,
+	name: "delete",
+	description: "Deletes a project",
+	options: [{
+		type: ApplicationCommandOptionType.String,
+		name: "name",
+		description: "The project's name",
+		required: true
+	}],
 
-	info: new SlashCommandSubcommandBuilder()
-		.setName("delete")
-		.setDescription("Deletes a project")
-		.addStringOption(new SlashCommandStringOption()
-			.setName("name")
-			.setDescription("The project's name")
-			.setRequired(true)
-		),
-
-	execute: async function (interaction: CommandInteraction) {
+	async handle(interaction: CommandInteraction) {
 		const project = await Plugin.findOne({
 			where: {
 				name: interaction.options.get("name")?.value

@@ -1,19 +1,22 @@
-import {Command} from "./command.js";
-import {SlashCommandBuilder} from "@discordjs/builders";
 import {CommandInteraction} from "discord.js";
 import {Plugin} from "../storage.js";
 import {config} from "../config.js";
+import {ApplicationCommandOptionType, ApplicationCommandType} from 'discord-api-types/v10'
+import {Command} from 'djs-slash-helper'
 
-export const rolesCommand: Command = {
-	info: new SlashCommandBuilder()
-		.setName("role")
-		.setDescription("Add or remove yourself from a role")
-		.addRoleOption(x => x.setName("role")
-			.setDescription("The role to add")
-			.setRequired(true)
-		),
+export const rolesCommand: Command<ApplicationCommandType.ChatInput> = {
+	name: "role",
+	description: "Add or remove yourself from a role",
+	type: ApplicationCommandType.ChatInput,
+	options: [{
+		name: "role",
+		description: "The role to add",
+		type: ApplicationCommandOptionType.Role,
+		required: true
+	}],
+	permissions: [],
 
-	async execute(interaction: CommandInteraction) {
+	async handle(interaction: CommandInteraction) {
 
 		const role = await interaction.options.get("role")!.role!
 

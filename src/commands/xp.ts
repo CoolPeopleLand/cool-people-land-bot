@@ -1,16 +1,22 @@
-import {Command} from "./command.js";
-import {SlashCommandBuilder} from "@discordjs/builders";
 import {CommandInteraction, GuildMember} from "discord.js";
 import {User} from "../storage.js";
 import {xpForLevel} from "../util/xp.js";
+import {ApplicationCommandOptionType, ApplicationCommandType} from 'discord-api-types/v10'
+import {Command} from 'djs-slash-helper'
 
-export const xpCommand: Command = {
-    info: new SlashCommandBuilder()
-        .setName("xp")
-        .setDescription("Shows your current XP")
-        .addUserOption(x => x.setName("user").setDescription("The user to show XP")),
+export const xpCommand: Command<ApplicationCommandType.ChatInput> = {
+    type: ApplicationCommandType.ChatInput,
+    name: "xp",
+    description: "Shows your current XP",
+    options: [{
+        name: "user",
+        description: "The user to show XP",
+        type: ApplicationCommandOptionType.User,
+        required: false
+    }],
+    permissions: [],
 
-    async execute(interaction: CommandInteraction) {
+    async handle(interaction: CommandInteraction) {
 
         const target = (interaction.options.get("user")?.member || interaction.member) as GuildMember
 
